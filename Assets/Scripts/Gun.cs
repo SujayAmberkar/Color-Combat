@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Gun : MonoBehaviour
 {
     Animator anim;
@@ -20,4 +21,5 @@ public class Gun : MonoBehaviour
     void Recoil(bool isFiring){
         anim.SetBool("isFiring",isFiring);
     }
+
 }

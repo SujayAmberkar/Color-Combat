@@ -5,10 +5,21 @@ using UnityEngine;
 public class SwitchGun : MonoBehaviour
 {
     public List<GameObject> Guns = new List<GameObject>();
-    private int currentGun=1;
+    private int currentGun=1;  
+    Animator anim;
+
+    IEnumerator MyCoroutine()
+    {
+        anim.SetTrigger("Switch");
+        // Wait for 1 second
+        yield return new WaitForSeconds(0.5f);
+        EnableSelectedGun();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        anim = GetComponent<Animator>();
         EnableSelectedGun();
     }
 
@@ -16,19 +27,22 @@ public class SwitchGun : MonoBehaviour
     void Update()
     {
         float scroll = Input.GetAxis("Mouse ScrollWheel");
-        ScrollToSwitchWeapon(scroll);
+        ScrollToSwitchWeapon(scroll); 
     }
 
     void ScrollToSwitchWeapon(float scroll){
             if(scroll>0f && currentGun<Guns.Count-1){  //scroll up
                 currentGun++;
+                StartCoroutine(MyCoroutine());
                 Debug.Log(currentGun);
-                EnableSelectedGun();
+                // EnableSelectedGun();
             }else if(scroll<0f && currentGun>0){     //Scroll down
                 currentGun--;
                 Debug.Log(currentGun);
-                EnableSelectedGun();
+                StartCoroutine(MyCoroutine());
+                // EnableSelectedGun();
             }
+            
     }
 
     void EnableSelectedGun(){
@@ -37,5 +51,6 @@ public class SwitchGun : MonoBehaviour
             gun.SetActive(false);
         }
         Guns[currentGun].SetActive(true);
+        
     }
 }
